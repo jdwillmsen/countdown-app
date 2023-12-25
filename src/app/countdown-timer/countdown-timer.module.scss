@@ -1,0 +1,126 @@
+.timer-container {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: solid 1px white;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.timer-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px #fff;
+  border-radius: 4px;
+  color: #333;
+  background-color: rgba(256, 256, 256, 0.8);
+  padding: 12px;
+  align-items: center;
+}
+
+.timer-inner {
+  display: flex;
+  padding: 12px;
+}
+
+.timer-segment {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.divider,
+.time {
+  font-size: 28px;
+}
+
+.divider {
+  padding: 0 4px;
+}
+
+.label {
+  font-size: 12px;
+}
+
+.timer-title {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.timer-complete {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+@media only screen and (min-width: 600px){
+  .timer-container {
+    border: solid 2px white;
+    padding: 24px;
+  }
+
+  .timer-wrapper {
+    padding: 24px;
+    border: solid 2px #fff;
+  }
+
+  .timer-inner {
+    padding: 24px;
+  }
+
+  .divider,
+  .time {
+    font-size: 64px;
+  }
+
+  .divider {
+    padding: 0 16px;
+  }
+
+  .label {
+    font-size: 24px;
+  }
+
+  .timer-title {
+    font-size: 32px;
+  }
+
+  .timer-complete {
+    font-size: 32px;
+  }
+}
+
+@media only screen and (min-width: 900px){
+  .timer-container {
+    border: solid 2px white;
+    padding: 28px;
+  }
+
+  .timer-wrapper {
+    padding: 28px;
+    border: solid 2px #fff;
+  }
+
+  .timer-inner {
+    padding: 28px;
+  }
+
+  .divider,
+  .time {
+    font-size: 80px;
+  }
+
+  .divider {
+    padding: 0 28px;
+  }
+
+  .label {
+    font-size: 28px;
+  }
+
+  .timer-title {
+    font-size: 36px;
+  }
+
+  .timer-complete {
+    font-size: 36px;
+  }
+}
+

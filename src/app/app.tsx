@@ -1,12 +1,22 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.scss';
-
-import NxWelcome from './nx-welcome';
+import CountdownTimer from './countdown-timer/countdown-timer';
+import background from '../assets/camp_background.jpg';
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="countdown-app" />
+    <div
+      className={styles['container']}
+      style={{
+        backgroundImage: `url(${background}`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+      }}
+    >
+      <CountdownTimer
+        title={'Boys Weekend Countdown'}
+        targetDate={new Date('07/18/2024 18:00:00')}
+        completeMessage={'Boys Weekend Is Here!'}
+      />
     </div>
   );
 }

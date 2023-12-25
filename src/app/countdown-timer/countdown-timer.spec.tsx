@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import App from './app';
+import CountdownTimer from './countdown-timer';
 
-describe('App', () => {
+describe('CountdownTimer', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<App />);
+    const { baseElement } = render(<CountdownTimer />);
     expect(baseElement).toBeTruthy();
   });
 });
