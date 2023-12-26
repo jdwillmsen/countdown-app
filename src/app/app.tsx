@@ -3,6 +3,7 @@ import CountdownTimer from './countdown-timer/countdown-timer';
 import background from '../assets/camp_background.jpg';
 
 export function App() {
+  const boysWeekendDate = new Date('07/18/2024 18:00:00');
   return (
     <div
       className={styles['container']}
@@ -14,7 +15,7 @@ export function App() {
     >
       <CountdownTimer
         title={'Boys Weekend Countdown'}
-        targetDate={new Date('07/18/2024 18:00:00')}
+        targetDate={boysWeekendDate}
         completeMessage={'Boys Weekend Is Here!'}
       />
     </div>
