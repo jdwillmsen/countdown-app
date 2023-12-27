@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "npm i && nx build --prod",
+    "build": "npm i && nx build --watch",
     "test": "nx test"
   },
   "private": true,
