@@ -1,7 +1,7 @@
 # Countdown App
 
 [![CI](https://github.com/jdwillmsen/countdown-app/actions/workflows/ci.yml/badge.svg)](https://github.com/jdwillmsen/countdown-app/actions/workflows/ci.yml)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/3d72588e-79be-4f4d-96ba-a5e7a9821c4f/deploy-status)](https://app.netlify.com/sites/boys-weekend-countdown/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/afd102e7-7bdb-423a-90df-9832bcbc8efa/deploy-status)](https://app.netlify.com/sites/boys-weekend-countdown/deploys)
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
