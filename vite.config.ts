@@ -29,7 +29,7 @@ export default defineConfig({
       manifest: {
         name: 'Boys Weekend Countdown',
         short_name: 'Boys Weekend',
-        theme_color: '#00ff00',
+        theme_color: '#000000',
         icons: [
           {
             src: 'icons/icon-72.png',
