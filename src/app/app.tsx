@@ -18,7 +18,6 @@ export function App() {
         targetDate={boysWeekendDate}
         completeMessage={'Boys Weekend Is Here!'}
       />
-      test
     </div>
   );
 }
