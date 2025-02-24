@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "npm i && nx build --watch",
+    "build": "nx build countdown-app --production",
     "test": "nx test"
   },
   "private": true,
