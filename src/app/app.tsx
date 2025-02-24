@@ -3,7 +3,7 @@ import CountdownTimer from './countdown-timer/countdown-timer';
 import background from '../assets/camp_background.webp';
 
 export function App() {
-  const boysWeekendDate = new Date('07/18/2024 18:00:00');
+  const boysWeekendDate = new Date('07/17/2025 16:30:00');
   return (
     <div
       className={styles['container']}
