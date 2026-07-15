@@ -56,7 +56,6 @@
     }
   },
   "defaultProject": "countdown-app",
-  "nxCloudAccessToken": "MGZjYmVkNjUtZjdjMS00NTRhLTgwZWEtNTU5YTQxMzU0NTQ5fHJlYWQtd3JpdGU=",
   "useInferencePlugins": false,
   "defaultBase": "master",
   "useLegacyCache": true
