@@ -41,6 +41,7 @@
     "preview": {
       "executor": "@nx/vite:preview-server",
       "defaultConfiguration": "development",
+      "dependsOn": ["build"],
       "options": {
         "buildTarget": "countdown-app:build"
       },
@@ -51,11 +52,10 @@
         "production": {
           "buildTarget": "countdown-app:build:production"
         }
-      },
-      "dependsOn": ["build"]
+      }
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "coverage/countdown-app"
