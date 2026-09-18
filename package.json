@@ -18,7 +18,7 @@
     "@nx/eslint": "20.4.6",
     "@nx/eslint-plugin": "20.4.6",
     "@nx/js": "20.4.6",
-    "@nx/react": "20.4.6",
+    "@nx/react": "23.2.1",
     "@nx/vite": "20.4.6",
     "@nx/workspace": "20.4.6",
     "@swc-node/register": "1.9.2",
