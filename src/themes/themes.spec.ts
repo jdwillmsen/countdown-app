@@ -20,6 +20,19 @@ describe('themes', () => {
     },
   );
 
+  it.each(Object.keys(themes) as ThemeName[])(
+    '%s accent (link) text meets WCAG AA',
+    (name) => {
+      const { vars } = themes[name];
+      for (const photo of [BLACK, WHITE]) {
+        const frame = over(parseColor(vars['--frame-bg']), photo);
+        const card = over(parseColor(vars['--card-bg']), frame);
+        const accent = over(parseColor(vars['--accent']), card);
+        expect(contrastRatio(accent, card)).toBeGreaterThanOrEqual(4.5);
+      }
+    },
+  );
+
   it('camp reproduces the original look', () => {
     expect(themes.camp.vars).toEqual({
       '--frame-bg': 'rgba(0, 0, 0, 0.8)',
