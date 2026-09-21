@@ -5,3 +5,11 @@
   flex-direction: column;
   height: 100vh;
 }
+
+.version {
+  position: fixed;
+  right: 8px;
+  bottom: 4px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+}
