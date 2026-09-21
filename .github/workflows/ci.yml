@@ -29,6 +29,15 @@ jobs:
       # This line enables distribution
       # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e-ci" targets have been requested
       # - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci"
+
+      # The pnpm cache above holds packages, not the Cypress binary: cypress's
+      # install script downloads that separately into ~/.cache/Cypress, and
+      # skips the download when the matching version is already there. Keyed on
+      # the lockfile so a Cypress bump can never be served a stale binary.
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install --frozen-lockfile
 
       - uses: nrwl/nx-set-shas@v5

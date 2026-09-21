@@ -10,6 +10,10 @@
       "cache": true,
       "inputs": ["default", "^production"]
     },
+    "e2e-ci": {
+      "cache": true,
+      "inputs": ["default", "^production"]
+    },
     "@nx/eslint:lint": {
       "cache": true,
       "inputs": [
@@ -58,5 +62,5 @@
   },
   "defaultProject": "countdown-app",
   "useInferencePlugins": false,
-  "defaultBase": "master"
+  "defaultBase": "main"
 }

@@ -22,6 +22,14 @@
         }
       }
     },
+    "e2e-ci": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "countdown-app:serve-static"
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }
