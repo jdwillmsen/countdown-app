@@ -69,8 +69,8 @@ malformed event then fails CI and never reaches production.
 ## Themes
 
 `src/themes/themes.ts` exports presets keyed by `ThemeName`
-(`camp | lake | winter | party`). Each preset is a map of CSS custom
-properties plus a default background:
+(`camp | lake | winter | party | night`). Each preset is a map of CSS custom
+properties plus a backdrop:
 
 ```ts
 interface Theme {
@@ -82,17 +82,25 @@ interface Theme {
     '--accent': string;
     '--font-family': string;
   };
-  defaultBackground: string;
+  backdrop: string; // a CSS gradient, used when the event has no image
 }
 ```
+
+Only `camp` has a photo (`camp_background.webp`). The other presets would
+need an image for every event, so each preset has a gradient `backdrop`
+instead, and an event's `background` image overrides it. `night` is the
+neutral preset used by the pages that are not an event: no-upcoming, the
+archive, and not-found.
 
 The event page root spreads `vars` into its `style`. The timer stylesheet
 uses `var(--card-bg)` and the other properties in place of today's hardcoded
 colors. `camp` reproduces the current look exactly. The first commit makes
 that swap, and the page must look the same before and after it.
 
-Every theme's text and card colors must meet WCAG AA contrast (4.5:1). A unit
-test computes and asserts this, so adding a preset cannot quietly produce
+Every theme's text and card colors must meet WCAG AA contrast (4.5:1). The
+card and frame colors are translucent, so the test composites them over both
+pure black and pure white (the extremes a background photo can show) and
+asserts both cases. It computes this, so adding a preset cannot quietly produce
 unreadable text.
 
 ## Routes
@@ -118,7 +126,7 @@ unreadable text.
 Here!" and does not jump ahead to next year's countdown. If two events are
 live at once, the one that started most recently wins.
 
-The no-upcoming screen uses a neutral default theme and background. It says
+The no-upcoming screen uses the `night` preset. It says
 "No upcoming events", names the most recent past event with its date as a
 link to `/events/:slug`, and links to the archive. With an empty config it
 shows only "No upcoming events" and no links. The current production state
