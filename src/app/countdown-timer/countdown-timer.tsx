@@ -5,75 +5,66 @@ export interface CountdownTimerProps {
   targetDate: Date;
   title?: string;
   completeMessage?: string;
+  date?: string;
 }
 
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+
 export function CountdownTimer(props: CountdownTimerProps) {
-  const { completeMessage = 'Complete', title } = props;
-  const [complete, setComplete] = useState(false);
-  const [days, setDays] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const { completeMessage = 'Complete', title, date } = props;
+  const target = props.targetDate.getTime();
+  // Read the clock during the first render so the page never flashes 0:0:0:0
+  // while waiting for the first interval tick.
+  const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      const difference = props.targetDate.getTime() - now.getTime();
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-      setDays(days);
-      setHours(hours);
-      setMinutes(minutes);
-      setSeconds(seconds);
-      if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
-        setComplete(true);
-      }
-    }, 1000);
+    const interval = setInterval(() => setNow(Date.now()), SECOND);
     return () => clearInterval(interval);
-  });
+  }, [target]);
+
+  const remaining = target - now;
+  const dateLine = date && <div className={styles['timer-date']}>{date}</div>;
+
+  if (remaining <= 0) {
+    return (
+      <div className={styles['timer-container']}>
+        <div className={styles['timer-wrapper']}>
+          <div className={styles['timer-inner']}>
+            <h1 className={styles['timer-complete']}>{completeMessage}</h1>
+          </div>
+          {dateLine}
+        </div>
+      </div>
+    );
+  }
+
+  const segments = [
+    ['Days', Math.floor(remaining / DAY)],
+    ['Hours', Math.floor((remaining % DAY) / HOUR)],
+    ['Minutes', Math.floor((remaining % HOUR) / MINUTE)],
+    ['Seconds', Math.floor((remaining % MINUTE) / SECOND)],
+  ] as const;
 
   return (
-    <div>
-      {complete ? (
-        <div className={styles['timer-container']}>
-          <div className={styles['timer-wrapper']}>
-            <div className={styles['timer-inner']}>
-              <h1 className={styles['timer-complete']}>{completeMessage}</h1>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className={styles['timer-container']}>
-          <div className={styles['timer-wrapper']}>
-            <div className={styles['timer-title']}>{title}</div>
-            <div className={styles['timer-inner']}>
+    <div className={styles['timer-container']}>
+      <div className={styles['timer-wrapper']}>
+        <div className={styles['timer-title']}>{title}</div>
+        <div className={styles['timer-inner']}>
+          {segments.map(([label, value], i) => (
+            <div key={label} style={{ display: 'contents' }}>
+              {i > 0 && <span className={styles['divider']}>:</span>}
               <div className={styles['timer-segment']}>
-                <span className={styles['time']}>{days}</span>
-                <span className={styles['label']}>Days</span>
-              </div>
-              <span className={styles['divider']}>:</span>
-              <div className={styles['timer-segment']}>
-                <span className={styles['time']}>{hours}</span>
-                <span className={styles['label']}>Hours</span>
-              </div>
-              <span className={styles['divider']}>:</span>
-              <div className={styles['timer-segment']}>
-                <span className={styles['time']}>{minutes}</span>
-                <span className={styles['label']}>Minutes</span>
-              </div>
-              <span className={styles['divider']}>:</span>
-              <div className={styles['timer-segment']}>
-                <span className={styles['time']}>{seconds}</span>
-                <span className={styles['label']}>Seconds</span>
+                <span className={styles['time']}>{value}</span>
+                <span className={styles['label']}>{label}</span>
               </div>
             </div>
-          </div>
+          ))}
         </div>
-      )}
+        {dateLine}
+      </div>
     </div>
   );
 }
