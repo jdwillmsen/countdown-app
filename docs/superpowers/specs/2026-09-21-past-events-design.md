@@ -6,7 +6,8 @@ The app counts down to one hardcoded event. Once that event passes, the site
 only says it has arrived, and nothing remembers earlier events. This design
 lets the app hold many events. Each event has its own background, theme and
 countdown. The home page keeps its current single-countdown feel, and a
-separate archive lists past events.
+separate archive lists past events. When nothing is coming up, the home
+page says so plainly instead of showing a stale "Is Here!" screen.
 
 ## Decisions
 
@@ -30,9 +31,10 @@ export interface CountdownEvent {
   slug: string; // URL segment, unique, kebab-case
   title: string; // shown above the timer
   start: string; // ISO 8601 with an explicit offset
+  end: string; // same format; when the event is over
   theme: ThemeName; // key into the theme presets
   background?: string; // imported asset URL; falls back to the theme's default
-  completeMessage: string; // shown once `start` has passed
+  completeMessage: string; // shown from `start` until `end`
 }
 ```
 
@@ -42,17 +44,26 @@ _viewer's_ time zone, so anyone outside the host's zone sees a countdown that
 is off by their UTC difference. An explicit offset means everyone counts down
 to the same instant.
 
+`end` is required rather than defaulted. The home page's behavior depends on
+whether an event is in progress, and a hidden default duration would make
+that behavior hard to predict when someone adds an event.
+
 Seed data:
 
-| slug                | title        | start                     | theme |
-| ------------------- | ------------ | ------------------------- | ----- |
-| `boys-weekend-2024` | Boys Weekend | 2024-07-18T18:00:00-05:00 | camp  |
-| `boys-weekend-2025` | Boys Weekend | 2025-07-17T16:30:00-05:00 | camp  |
+| slug                | title        | start                     | end                       | theme |
+| ------------------- | ------------ | ------------------------- | ------------------------- | ----- |
+| `boys-weekend-2024` | Boys Weekend | 2024-07-18T18:00:00-05:00 | 2024-07-21T12:00:00-05:00 | camp  |
+| `boys-weekend-2025` | Boys Weekend | 2025-07-17T16:30:00-05:00 | 2025-07-20T12:00:00-05:00 | camp  |
+
+The start times come from git history. The end times (Sunday noon) are
+assumptions, because history never recorded them. Correct them if they are
+wrong.
 
 Both use `camp_background.webp` and the message "Boys Weekend Is Here!".
 
 A unit test validates the config. Slugs must be unique and kebab-case, every
-`start` must parse and carry an offset, and every `theme` must exist. A
+`start` and `end` must parse and carry an offset, `end` must be after
+`start`, and every `theme` must exist. A
 malformed event then fails CI and never reaches production.
 
 ## Themes
@@ -86,14 +97,32 @@ unreadable text.
 
 ## Routes
 
-| Path            | Renders                                                                       |
-| --------------- | ----------------------------------------------------------------------------- |
-| `/`             | `EventPage` for `selectFeaturedEvent(events, now)`, plus a "Past events" link |
-| `/events`       | `EventArchive`: a card grid, newest first                                     |
-| `/events/:slug` | `EventPage` for that event, with its date under the timer or complete message |
-| anything else   | `NotFound`, which links to `/events`                                          |
+| Path            | Renders                                                                             |
+| --------------- | ----------------------------------------------------------------------------------- |
+| `/`             | `HomePage`: the featured event, or the no-upcoming state, plus a "Past events" link |
+| `/events`       | `EventArchive`: a card grid, newest first                                           |
+| `/events/:slug` | `EventPage` for that event, with its date under the timer or complete message       |
+| anything else   | `NotFound`, which links to `/events`                                                |
 
-If the config is empty, `/` shows a short "No events yet" message.
+### Home page states
+
+`selectHome(events, now)` returns one of three states:
+
+| State      | When                                    | `/` shows                                            |
+| ---------- | --------------------------------------- | ---------------------------------------------------- |
+| `live`     | some event has `start <= now < end`     | that event's complete message, in its theme          |
+| `upcoming` | otherwise, some event has `start > now` | a countdown to the earliest such event, in its theme |
+| `none`     | neither                                 | the no-upcoming screen                               |
+
+`live` wins over `upcoming`, so during the weekend the page still says "Is
+Here!" and does not jump ahead to next year's countdown. If two events are
+live at once, the one that started most recently wins.
+
+The no-upcoming screen uses a neutral default theme and background. It says
+"No upcoming events", names the most recent past event with its date as a
+link to `/events/:slug`, and links to the archive. With an empty config it
+shows only "No upcoming events" and no links. The current production state
+(the only event is from 2025) becomes this screen.
 
 Deep links need two pieces:
 
@@ -104,12 +133,14 @@ Deep links need two pieces:
 
 ## Components
 
-- **`selectFeaturedEvent(events, now): CountdownEvent | undefined`**. A pure
-  function in `src/events/featured.ts`, and the only rule that decides what
-  everyone sees on `/`. The earliest event whose start is still ahead wins.
-  If none is ahead, the most recent past event wins. The period during an
-  event (after it starts, during the weekend itself) is the open policy
-  question; the implementation settles it and a test pins it.
+- **`selectHome(events, now): HomeState`**. A pure function in
+  `src/events/home.ts` that returns a discriminated union
+  (`{ kind: 'live' | 'upcoming', event } | { kind: 'none', lastPast? }`).
+  It is the only rule that decides what everyone sees on `/`, and it
+  implements the table above.
+- **`HomePage`**. Switches on the `HomeState`: `EventPage` for `live` and
+  `upcoming`, and `NoUpcoming` for `none`.
+- **`NoUpcoming({ lastPast })`**. The no-upcoming screen.
 - **`EventPage({ event })`**. Applies the theme and background, renders
   `CountdownTimer`, and sets `document.title`.
 - **`CountdownTimer`**. Its current API stays and it gains an optional `date`
@@ -118,7 +149,7 @@ Deep links need two pieces:
   and compute the first tick synchronously, so nothing flashes `0:0:0:0` on
   load.
 - **`EventArchive`**. One card per event: thumbnail background, title,
-  formatted date, and an "Upcoming" or "Past" badge. Each card links to
+  formatted date, and an "Upcoming", "Happening now" or "Past" badge. Each card links to
   `/events/:slug`.
 - **`NotFound`**.
 
@@ -132,17 +163,21 @@ name goes in `document.title` instead.
 
 Unit tests (Vitest):
 
-- `selectFeaturedEvent`: empty list, all upcoming, all past, a mix, exactly at
-  `start`, two events with the same start, and the during-event policy.
+- `selectHome`: empty list; all past (returns `none` with the latest past
+  event); all upcoming (returns the earliest); exactly at `start` and exactly
+  at `end` (boundaries: `start` is inclusive, `end` is exclusive); a live
+  event plus a later upcoming one (`live` wins); two overlapping live events.
 - Config validation and theme contrast, as described above.
-- `EventArchive`: newest first; the badge flips at `start`.
+- `EventArchive`: newest first; the badge is "Upcoming" before `start`,
+  "Happening now" between `start` and `end`, and "Past" after `end`.
 - `CountdownTimer`: renders the remaining time on the first render and
   switches to the complete state at the target time (fake timers).
 
 E2E (Cypress, clock frozen with `cy.clock`):
 
-- `/` counts down when the clock is before an event and shows the complete
-  message after it.
+- `/` counts down when the clock is before an event, shows the complete
+  message while the event is live, and shows "No upcoming events" with a link
+  to the latest event once it has ended.
 - `/events` lists both seed events, newest first.
 - A deep link to `/events/boys-weekend-2024` renders that event.
 - An unknown slug renders not-found.
