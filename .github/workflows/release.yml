@@ -45,6 +45,19 @@ jobs:
       new-release-published: ${{ steps.release.outputs.new-release-published }}
       new-release-version: ${{ steps.release.outputs.new-release-version }}
     steps:
+      # A tag is a promise that the version went live, and semantic-release
+      # makes it before the deploy job ever runs. Without the Netlify token that
+      # deploy can only fail, leaving a release with nothing behind it, so
+      # refuse to cut one. The secret is repository-wide, not scoped to the
+      # production environment, which is why this job can see it at all.
+      - name: Require the deploy token
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
+            echo "::error::NETLIFY_AUTH_TOKEN is not set, so the deploy would fail after tagging. Add the repository secret before releasing."
+            exit 1
+          fi
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       # Under workflow_run, checkout defaults to the newest commit on main, not
       # the one CI just passed -- if main moved while CI ran, that would tag an
       # untested commit. Check out the exact commit CI ran against instead. If

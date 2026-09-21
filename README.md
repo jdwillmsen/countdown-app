@@ -44,3 +44,5 @@ GitHub releases are the changelog.
 
 The deploy needs a Netlify personal access token stored as the repository
 secret `NETLIFY_AUTH_TOKEN` (Settings, Secrets and variables, Actions).
+Without it the Release workflow fails before tagging, so no version is cut that
+cannot go live.
