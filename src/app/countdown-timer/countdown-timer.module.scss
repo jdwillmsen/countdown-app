@@ -50,6 +50,11 @@
   font-weight: 900;
 }
 
+.timer-date {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
 @media only screen and (min-width: 600px) {
   .timer-container {
     border: solid 2px var(--frame-border);
@@ -84,6 +89,10 @@
 
   .timer-complete {
     font-size: 32px;
+  }
+
+  .timer-date {
+    font-size: 18px;
   }
 }
 
@@ -121,5 +130,9 @@
 
   .timer-complete {
     font-size: 36px;
+  }
+
+  .timer-date {
+    font-size: 20px;
   }
 }

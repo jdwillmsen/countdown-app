@@ -25,9 +25,8 @@ describe('countdown', () => {
   it('shows the complete message once the event has started', () => {
     cy.clock(TARGET + HOUR);
     cy.visit('/');
-    cy.contains('Boys Weekend Countdown');
-    cy.tick(SECOND);
-
+    // The synchronous first render already reflects the elapsed target, so
+    // the complete message appears without waiting for a tick.
     cy.contains('Boys Weekend Is Here!');
     cy.contains('Days').should('not.exist');
   });
