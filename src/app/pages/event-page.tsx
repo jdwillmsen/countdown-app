@@ -13,7 +13,7 @@ import styles from './pages.module.scss';
 export interface EventPageProps {
   event: CountdownEvent;
   showDate?: boolean;
-  nav: { to: string; label: string };
+  nav: { to: string; label: string; arrow?: 'back' | 'forward' };
 }
 
 export function EventPage({ event, showDate, nav }: EventPageProps) {
@@ -36,7 +36,9 @@ export function EventPage({ event, showDate, nav }: EventPageProps) {
         date={showDate ? formatEventDate(event) : undefined}
       />
       <Link className={styles['nav']} to={nav.to}>
+        {nav.arrow === 'back' && <span aria-hidden="true">← </span>}
         {nav.label}
+        {nav.arrow === 'forward' && <span aria-hidden="true"> →</span>}
       </Link>
     </ThemedBackdrop>
   );

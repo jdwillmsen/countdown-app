@@ -15,7 +15,7 @@ export function HomePage({ events }: { events: readonly CountdownEvent[] }) {
   return (
     <EventPage
       event={state.event}
-      nav={{ to: '/events', label: 'Past events →' }}
+      nav={{ to: '/events', label: 'Past events', arrow: 'forward' }}
     />
   );
 }

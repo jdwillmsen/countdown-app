@@ -11,7 +11,7 @@ export function EventDetail({ events }: { events: readonly CountdownEvent[] }) {
     <EventPage
       event={event}
       showDate
-      nav={{ to: '/events', label: '← All events' }}
+      nav={{ to: '/events', label: 'All events', arrow: 'back' }}
     />
   );
 }

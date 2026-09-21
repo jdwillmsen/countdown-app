@@ -23,7 +23,7 @@ export function EventArchive({
 }: {
   events: readonly CountdownEvent[];
 }) {
-  useDocumentTitle('Past events · Countdown');
+  useDocumentTitle('Events · Countdown');
   // Read the clock once per visit (not during render, for the react-hooks
   // purity rule) so every tile's badge reflects the same instant.
   const [now] = useState(() => Date.now());
@@ -32,7 +32,7 @@ export function EventArchive({
     <ThemedBackdrop theme="night">
       <main className={styles['archive']}>
         <h1>Events</h1>
-        <ul className={styles['grid']}>
+        <ul className={styles['grid']} role="list">
           {sorted.map((e) => (
             <li key={e.slug}>
               <Link
@@ -60,7 +60,7 @@ export function EventArchive({
           ))}
         </ul>
         <Link className={styles['nav']} to="/">
-          ← Home
+          <span aria-hidden="true">← </span>Home
         </Link>
       </main>
     </ThemedBackdrop>
