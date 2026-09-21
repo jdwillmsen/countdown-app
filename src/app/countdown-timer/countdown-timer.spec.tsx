@@ -29,6 +29,14 @@ describe('CountdownTimer', () => {
     expect(screen.getByText('Here!')).toBeTruthy();
   });
 
+  it('stops ticking once the target has passed', () => {
+    const target = new Date(Date.UTC(2025, 0, 1, 0, 0, 2));
+    render(<CountdownTimer targetDate={target} completeMessage="Here!" />);
+    act(() => vi.advanceTimersByTime(2000));
+    expect(screen.getByText('Here!')).toBeTruthy();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
   it('shows the date line in both states', () => {
     const { rerender } = render(
       <CountdownTimer
