@@ -1,0 +1,116 @@
+name: Release
+
+# Every commit that lands on main and passes CI is a release candidate.
+# semantic-release reads the Conventional Commit history since the last tag and
+# decides whether it amounts to a new version; if it does, it tags the commit,
+# writes the GitHub release, and the deploy job below puts exactly that commit
+# live. Nothing else changes production -- netlify.toml stops Netlify's own
+# production builds -- so the live site is always a tagged, CI-green commit.
+#
+# Chained off CI with workflow_run rather than running on push so a release can
+# never race ahead of, or skip, the checks that gate it.
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions: {}
+
+# Serialized, never cancelled: a release that has tagged must finish its
+# deploy, and two deploys finishing out of order would put an older version
+# live. A newer run queued behind this one supersedes any older queued run,
+# which is safe -- it releases everything the older one would have.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    # workflow_run fires for every CI completion, including failures and pull
+    # requests whose head branch happens to be called main (from a fork, say).
+    # Only a green push to this repository's main is a release candidate.
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      # Tags and GitHub releases. Nothing else: the success and failure comments
+      # that would need issues and pull-requests write are turned off in
+      # .releaserc.json.
+      contents: write
+    outputs:
+      new-release-published: ${{ steps.release.outputs.new-release-published }}
+      new-release-version: ${{ steps.release.outputs.new-release-version }}
+    steps:
+      # Under workflow_run, checkout defaults to the newest commit on main, not
+      # the one CI just passed -- if main moved while CI ran, that would tag an
+      # untested commit. Check out the exact commit CI ran against instead. If
+      # main has since moved on, semantic-release sees the local branch is
+      # behind and releases nothing; the newer commit's own CI run will.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          # The whole history and every tag: the next version is derived from
+          # the commits since the last tag.
+          fetch-depth: 0
+          # semantic-release authenticates its tag push with GITHUB_TOKEN
+          # itself; leaving checkout's credential in the git config is just a
+          # second copy of it on disk.
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+      # Nothing here runs Cypress, so skip downloading its binary.
+      - run: pnpm install --frozen-lockfile
+        env:
+          CYPRESS_INSTALL_BINARY: '0'
+      - id: release
+        run: node tools/release.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    needs: release
+    if: needs.release.outputs.new-release-published == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    environment:
+      name: production
+      url: https://boys-weekend-countdown.netlify.app
+    steps:
+      # The tag, not the branch: what goes live is exactly what was released.
+      - uses: actions/checkout@v7
+        with:
+          ref: refs/tags/v${{ needs.release.outputs.new-release-version }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+        env:
+          CYPRESS_INSTALL_BINARY: '0'
+      - run: pnpm nx build countdown-app
+        env:
+          VITE_APP_VERSION: ${{ needs.release.outputs.new-release-version }}
+      # --no-build uploads the bundle built above instead of letting the CLI
+      # rebuild it without the version. The netlify.toml ignore command only
+      # gates builds Netlify starts from git, so it does not block this deploy.
+      - run: >-
+          npx --yes netlify-cli@27.8.0 deploy
+          --prod
+          --no-build
+          --dir=dist/countdown-app
+          --site="$NETLIFY_SITE_ID"
+          --message="v$VERSION"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: afd102e7-7bdb-423a-90df-9832bcbc8efa
+          VERSION: ${{ needs.release.outputs.new-release-version }}
