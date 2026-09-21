@@ -24,12 +24,6 @@ updates:
       # Angular ships its packages as a set and expects them to move together --
       # compiler-cli in particular has to match compiler exactly -- so splitting
       # them across pull requests produces a tree that cannot resolve.
-      angular:
-        patterns:
-          - '@angular*'
-          - '@angular-devkit/*'
-          - '@angular-eslint/*'
-        update-types: ['minor', 'patch']
       nx:
         patterns:
           - 'nx'
