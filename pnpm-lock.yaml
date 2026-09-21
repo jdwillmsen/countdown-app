@@ -115,8 +115,8 @@ importers:
         specifier: 23.2.1
         version: 23.2.1(@swc-node/register@1.12.1(@swc/core@1.16.2(@swc/helpers@0.5.23))(@swc/types@0.1.28)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.16.2(@swc/helpers@0.5.23))
       prettier:
-        specifier: ^2.6.2
-        version: 2.8.8
+        specifier: ^3.9.8
+        version: 3.9.8
       sass:
         specifier: ^1.55.0
         version: 1.104.1
@@ -4083,9 +4083,9 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier@2.8.8:
-    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
-    engines: {node: '>=10.13.0'}
+  prettier@3.9.8:
+    resolution: {integrity: sha512-WRFq3Wn3WId7LLROfMLdH7xaFr2jR62wU8nLO6rQUOLOxNZUviyJQs1M0iIhLexSFy+L+w0ch66wtoO2jRjG0A==}
+    engines: {node: '>=14'}
     hasBin: true
 
   pretty-bytes@5.6.0:
@@ -9472,7 +9472,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@2.8.8: {}
+  prettier@3.9.8: {}
 
   pretty-bytes@5.6.0: {}
 
