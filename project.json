@@ -72,7 +72,8 @@
       "dependsOn": ["build"],
       "options": {
         "staticFilePath": "dist/countdown-app",
-        "watch": false
+        "watch": false,
+        "spa": true
       }
     }
   }
