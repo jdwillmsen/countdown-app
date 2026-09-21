@@ -83,17 +83,27 @@ describe('pages', () => {
     expect(within(cards[1]).getByText('Past')).toBeTruthy();
   });
 
-  it('detail page renders one event with its date', () => {
+  it('detail page for a past event says it has wrapped up', () => {
     renderAt('/events/trip-2024', '2025-09-01T00:00:00Z');
-    expect(screen.getByText('Trip Is Here!')).toBeTruthy();
+    expect(screen.getByText('Trip has wrapped up')).toBeTruthy();
     expect(screen.getByText('Jul 18, 2024')).toBeTruthy();
   });
 
-  it('unknown slugs and paths show not-found', () => {
+  it('detail page for a live event still says it is here', () => {
+    renderAt('/events/trip-2025', '2025-07-18T12:00:00-05:00');
+    expect(screen.getByText('Trip Is Here!')).toBeTruthy();
+  });
+
+  it('unknown slugs show not-found', () => {
     renderAt('/events/nope', '2025-09-01T00:00:00Z');
     expect(screen.getByText('Event not found')).toBeTruthy();
     expect(
       screen.getByRole('link', { name: 'See all events' }).getAttribute('href'),
     ).toBe('/events');
+  });
+
+  it('unknown paths show not-found', () => {
+    renderAt('/nope', '2025-09-01T00:00:00Z');
+    expect(screen.getByText('Event not found')).toBeTruthy();
   });
 });

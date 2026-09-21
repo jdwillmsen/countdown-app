@@ -32,6 +32,7 @@ describe('home', () => {
     cy.contains('No upcoming events');
     cy.contains('a', 'Boys Weekend').click();
     cy.location('pathname').should('eq', '/events/boys-weekend-2025');
+    cy.contains('Boys Weekend has wrapped up');
     cy.contains('Jul 17, 2025');
   });
 });
@@ -51,13 +52,19 @@ describe('archive', () => {
   it('deep-links to a single event', () => {
     cy.clock(END_2025 + DAY);
     cy.visit('/events/boys-weekend-2024');
-    cy.contains('Boys Weekend Is Here!');
+    cy.contains('Boys Weekend has wrapped up');
     cy.contains('Jul 18, 2024');
   });
 
   it('shows not-found for an unknown event', () => {
     cy.clock(END_2025 + DAY);
     cy.visit('/events/nope');
+    cy.contains('Event not found');
+  });
+
+  it('shows not-found for an unknown path', () => {
+    cy.clock(END_2025 + DAY);
+    cy.visit('/nope');
     cy.contains('Event not found');
   });
 });
