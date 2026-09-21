@@ -15,3 +15,12 @@
 
 // Import commands.ts using ES2015 syntax:
 import './commands';
+
+// The PWA's service worker installs on the first visit and serves index.html
+// from its cache on later ones, bypassing what Cypress injects into the page,
+// so cy.clock never reaches the app and it renders against the real date.
+// These tests do not exercise the worker, so keep it from registering.
+Cypress.on('window:before:load', (win) => {
+  delete (Object.getPrototypeOf(win.navigator) as { serviceWorker?: unknown })
+    .serviceWorker;
+});
