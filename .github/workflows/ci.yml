@@ -47,3 +47,12 @@ jobs:
       # too so a dependency bump that breaks them fails its own pull request.
       - run: node tools/check-release-notes.mjs
       - run: pnpm nx affected -t lint test build e2e-ci
+      # A failed e2e run is otherwise only a log line; the screenshots show what
+      # the page actually rendered, which the runner cannot reproduce locally.
+      - if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cypress-artifacts
+          path: dist/cypress
+          if-no-files-found: ignore
+          retention-days: 7
