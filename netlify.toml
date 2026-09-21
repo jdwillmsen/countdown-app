@@ -1,0 +1,13 @@
+# Netlify still builds every pull request as a deploy preview. Node comes from
+# .nvmrc and pnpm from package.json's packageManager field, the same pins CI
+# uses, so a preview is built the way CI builds.
+[build]
+  command = "pnpm nx build countdown-app"
+  publish = "dist/countdown-app"
+
+# Production is deployed only by the release workflow, from a tagged commit.
+# An ignore command that exits 0 tells Netlify to skip the build, so pushes to
+# main no longer publish on their own. It runs only for builds Netlify starts
+# from git; a `netlify deploy --prod` from the CLI never evaluates it.
+[context.production]
+  ignore = "exit 0"
