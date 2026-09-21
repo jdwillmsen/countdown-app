@@ -27,8 +27,8 @@ export default defineConfig({
         enabled: true,
       },
       manifest: {
-        name: 'Boys Weekend Countdown',
-        short_name: 'Boys Weekend',
+        name: 'Countdown',
+        short_name: 'Countdown',
         theme_color: '#000000',
         icons: [
           {
@@ -96,7 +96,7 @@ export default defineConfig({
             label: 'Countdown Timer Mobile',
           },
         ],
-        description: 'A countdown application for upcoming events',
+        description: 'Countdowns to upcoming events, and the ones already past',
       },
     }),
   ],
