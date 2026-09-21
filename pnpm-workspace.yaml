@@ -9,3 +9,11 @@ allowBuilds:
   cypress: true
   esbuild: true
   nx: true
+
+# Transitive advisories with no direct dependency to bump. Each pins the first
+# patched release of the range the advisory names, so the fix survives a
+# lockfile regeneration rather than depending on what resolution happens to
+# pick. Drop an entry once a parent requires the patched version itself.
+overrides:
+  smol-toml: '>=1.7.1'
+  qs: '>=6.15.2'
