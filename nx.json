@@ -4,7 +4,13 @@
     "build": {
       "cache": true,
       "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "inputs": [
+        "production",
+        "^production",
+        {
+          "env": "VITE_APP_VERSION"
+        }
+      ]
     },
     "e2e": {
       "cache": true,
