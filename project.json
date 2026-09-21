@@ -69,8 +69,10 @@
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
+      "dependsOn": ["build"],
       "options": {
-        "buildTarget": "countdown-app:build"
+        "staticFilePath": "dist/countdown-app",
+        "watch": false
       }
     }
   }

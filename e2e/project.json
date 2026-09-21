@@ -28,7 +28,8 @@
         "cypressConfig": "e2e/cypress.config.ts",
         "testingType": "e2e",
         "devServerTarget": "countdown-app:serve-static"
-      }
+      },
+      "dependsOn": ["^build"]
     },
     "lint": {
       "executor": "@nx/eslint:lint"
