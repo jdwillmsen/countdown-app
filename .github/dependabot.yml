@@ -14,6 +14,13 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    # The release workflow keys off these prefixes: chore(deps) ships a patch
+    # release, chore(deps-dev) ships nothing. Spelled out rather than left to
+    # Dependabot's guess from history, so a changed guess cannot silently stop
+    # runtime fixes reaching production or start releasing on dev bumps.
+    commit-message:
+      prefix: chore
+      include: scope
     # Majors are excluded from every group so they arrive as their own pull
     # request. dependabot/fetch-metadata reports a grouped PR's update-type as
     # major if *any* member is a major, and the auto-merge workflow refuses
@@ -43,6 +50,11 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # ci(deps), not chore(deps): an action bump changes nothing that ships, so
+    # it must not match the rule that releases runtime dependency bumps.
+    commit-message:
+      prefix: ci
+      include: scope
     # Majors are excluded from every group so they arrive as their own pull
     # request. dependabot/fetch-metadata reports a grouped PR's update-type as
     # major if *any* member is a major, and the auto-merge workflow refuses
