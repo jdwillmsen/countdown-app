@@ -43,4 +43,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v5
 
       - run: pnpm nx format:check
+      # Release notes are only rendered on main after a merge; render them here
+      # too so a dependency bump that breaks them fails its own pull request.
+      - run: node tools/check-release-notes.mjs
       - run: pnpm nx affected -t lint test build e2e-ci

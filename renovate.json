@@ -6,5 +6,12 @@
     "The shared jdwlabs preset batches all non-major updates into one weekly pull request with no automerge. The dependabot.yml it replaces did the same thing with four separate groups (angular, nx, production, development); this is one grouped PR a week instead of up to four, which is fewer to review rather than fewer updates.",
     "Security updates do not wait for that weekly slot: the preset sets vulnerabilityAlerts with prCreation immediate, and osvVulnerabilityAlerts on top. GitHub's own Dependabot security updates are a repository setting rather than this file, so removing it does not turn them off."
   ],
-  "extends": ["github>jdwlabs/.github"]
+  "extends": ["github>jdwlabs/.github"],
+  "packageRules": [
+    {
+      "description": "The changelog preset's major has to match the conventional-changelog-writer that @semantic-release/release-notes-generator bundles. Preset 10 needs writer 9, and the generator still ships writer 8, so a preset-only bump breaks every release. Move them together: lift this cap when the generator moves to writer 9. tools/check-release-notes.mjs fails CI if they drift anyway.",
+      "matchPackageNames": ["conventional-changelog-conventionalcommits"],
+      "allowedVersions": "<10"
+    }
+  ]
 }
