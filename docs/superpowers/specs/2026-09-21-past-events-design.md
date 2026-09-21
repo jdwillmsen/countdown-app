@@ -16,7 +16,7 @@ page says so plainly instead of showing a stale "Is Here!" screen.
 | Where events live | A typed config file in the repo. Adding an event means a PR, then an automatic release. |
 | Navigation        | `/` shows the featured event, `/events` the archive, `/events/:slug` one event.         |
 | Theme             | Named presets. An event picks one by name and never sets raw colors.                    |
-| Router            | React Router v7, library mode.                                                          |
+| Router            | React Router v8, declarative mode.                                                      |
 | Seed data         | Boys Weekend 2024 and 2025, recovered from git history.                                 |
 
 No backend, no admin UI, and no per-event color overrides. Each of these can
