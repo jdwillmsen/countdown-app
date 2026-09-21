@@ -44,7 +44,7 @@
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
-    "jsdom": "~22.1.0",
+    "jsdom": "~30.1.0",
     "nx": "23.2.1",
     "prettier": "^3.9.8",
     "sass": "^1.55.0",
