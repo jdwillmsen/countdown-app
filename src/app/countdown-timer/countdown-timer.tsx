@@ -19,11 +19,16 @@ export function CountdownTimer(props: CountdownTimerProps) {
   // Read the clock during the first render so the page never flashes 0:0:0:0
   // while waiting for the first interval tick.
   const [now, setNow] = useState(() => Date.now());
+  const done = now >= target;
 
+  // Once the target has passed the display never changes again, so there is
+  // nothing left for the interval to refresh; leaving it running would tick
+  // forever on an unmounted-in-spirit but still-rendered complete screen.
   useEffect(() => {
+    if (done) return;
     const interval = setInterval(() => setNow(Date.now()), SECOND);
     return () => clearInterval(interval);
-  }, [target]);
+  }, [target, done]);
 
   const remaining = target - now;
   const dateLine = date && <div className={styles['timer-date']}>{date}</div>;
