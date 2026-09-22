@@ -1,7 +1,7 @@
 // Pinned to the shipped config in src/events/events.ts, so the assertions stay
 // the same no matter when the suite runs.
 const START_2025 = Date.parse('2025-07-17T16:30:00-05:00');
-const END_2025 = Date.parse('2025-07-20T12:00:00-05:00');
+const END_2025 = Date.parse('2025-07-20T20:00:00-05:00');
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
