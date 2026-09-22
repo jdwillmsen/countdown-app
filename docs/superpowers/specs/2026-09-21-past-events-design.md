@@ -53,10 +53,13 @@ Seed data:
 | slug                | title        | start                     | end                       | theme |
 | ------------------- | ------------ | ------------------------- | ------------------------- | ----- |
 | `boys-weekend-2024` | Boys Weekend | 2024-07-18T18:00:00-05:00 | 2024-07-21T20:00:00-05:00 | camp  |
-| `boys-weekend-2025` | Boys Weekend | 2025-07-17T16:30:00-05:00 | 2025-07-20T20:00:00-05:00 | camp  |
+| `boys-weekend-2025` | Boys Weekend | 2025-07-17T18:00:00-05:00 | 2025-07-20T20:00:00-05:00 | camp  |
+| `boys-weekend-2026` | Boys Weekend | 2026-07-16T16:00:00-05:00 | 2026-07-19T20:00:00-05:00 | camp  |
 
-The start times come from git history. Both events end Sunday at 8pm
-Central.
+All three run Thursday to Sunday 8pm in `America/Chicago`, starting at 6pm
+in 2024 and 2025 and 4pm in 2026. Each event names its IANA `timeZone`, and
+event pages and the archive show the full range in that zone (for example
+"Thu, Jul 16, 2026, 4:00 PM CDT – Sun, Jul 19, 2026, 8:00 PM CDT").
 
 Both use `camp_background.webp` and the message "Boys Weekend Is Here!".
 

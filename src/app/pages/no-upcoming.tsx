@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { ThemedBackdrop } from '../../themes/themed-backdrop';
-import { formatEventDate, type CountdownEvent } from '../../events/event';
+import { formatEventDates, type CountdownEvent } from '../../events/event';
 import { useDocumentTitle } from '../use-document-title';
 import styles from './pages.module.scss';
 
@@ -16,7 +16,7 @@ export function NoUpcoming({ lastPast }: { lastPast?: CountdownEvent }) {
               <p>
                 Last up:{' '}
                 <Link to={`/events/${lastPast.slug}`}>{lastPast.title}</Link> ·{' '}
-                {formatEventDate(lastPast)}
+                {formatEventDates(lastPast)}
               </p>
               <p>
                 <Link to="/events">See past events</Link>

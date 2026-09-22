@@ -1,6 +1,7 @@
 import {
   endsAt,
-  formatEventDate,
+  formatEventDates,
+  formatEventRange,
   startsAt,
   statusAt,
   type CountdownEvent,
@@ -12,6 +13,7 @@ const event: CountdownEvent = {
   start: '2025-07-17T16:30:00-05:00',
   end: '2025-07-20T12:00:00-05:00',
   theme: 'camp',
+  timeZone: 'America/Chicago',
   completeMessage: 'Here',
 };
 
@@ -28,7 +30,23 @@ describe('event', () => {
     expect(statusAt(event, endsAt(event))).toBe('past');
   });
 
-  it('formats the start date', () => {
-    expect(formatEventDate(event)).toBe('Jul 17, 2025');
+  // Intl pads the range dash with thin spaces; compare the words, not the glyphs.
+  const words = (s: string) => s.replace(/\s+/g, ' ');
+
+  it('formats the days the event spans', () => {
+    expect(words(formatEventDates(event))).toBe('Jul 17 – 20, 2025');
+  });
+
+  it('formats the full range with times and zone', () => {
+    expect(words(formatEventRange(event))).toBe(
+      'Thu, Jul 17, 2025, 4:30 PM CDT – Sun, Jul 20, 2025, 12:00 PM CDT',
+    );
+  });
+
+  it("shows times in the event's time zone, not the viewer's", () => {
+    const west = { ...event, timeZone: 'America/Los_Angeles' };
+    expect(words(formatEventRange(west))).toBe(
+      'Thu, Jul 17, 2025, 2:30 PM PDT – Sun, Jul 20, 2025, 10:00 AM PDT',
+    );
   });
 });

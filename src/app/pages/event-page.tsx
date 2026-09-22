@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { ThemedBackdrop } from '../../themes/themed-backdrop';
 import {
-  formatEventDate,
+  formatEventRange,
   statusAt,
   type CountdownEvent,
 } from '../../events/event';
@@ -33,7 +33,7 @@ export function EventPage({ event, showDate, nav }: EventPageProps) {
         title={`${event.title} Countdown`}
         targetDate={new Date(event.start)}
         completeMessage={completeMessage}
-        date={showDate ? formatEventDate(event) : undefined}
+        date={showDate ? formatEventRange(event) : undefined}
       />
       <Link className={styles['nav']} to={nav.to}>
         {nav.arrow === 'back' && <span aria-hidden="true">← </span>}

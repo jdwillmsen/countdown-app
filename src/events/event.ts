@@ -6,6 +6,9 @@ export interface CountdownEvent {
   start: string;
   end: string;
   theme: ThemeName;
+  // IANA zone the event happens in; dates and times display in it, so
+  // everyone sees the local time of the event rather than their own.
+  timeZone: string;
   background?: string;
   completeMessage: string;
 }
@@ -20,8 +23,22 @@ export function statusAt(e: CountdownEvent, now: number): EventStatus {
   return now < endsAt(e) ? 'live' : 'past';
 }
 
-const dateFormat = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' });
+export function formatEventDates(e: CountdownEvent): string {
+  return new Intl.DateTimeFormat('en-US', {
+    dateStyle: 'medium',
+    timeZone: e.timeZone,
+  }).formatRange(startsAt(e), endsAt(e));
+}
 
-export function formatEventDate(e: CountdownEvent): string {
-  return dateFormat.format(startsAt(e));
+export function formatEventRange(e: CountdownEvent): string {
+  return new Intl.DateTimeFormat('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: e.timeZone,
+    timeZoneName: 'short',
+  }).formatRange(startsAt(e), endsAt(e));
 }
