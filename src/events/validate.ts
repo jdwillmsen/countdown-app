@@ -24,8 +24,22 @@ export function validateEvents(list: readonly CountdownEvent[]): string[] {
     }
     if (endsAt(e) <= startsAt(e))
       errors.push(`${e.slug}: end must be after start`);
+    if (!isTimeZone(e.timeZone)) {
+      errors.push(`${e.slug}: unknown time zone "${e.timeZone}"`);
+    }
     if (!(e.theme in themes))
       errors.push(`${e.slug}: unknown theme "${e.theme as string}"`);
   }
   return errors;
+}
+
+function isTimeZone(zone: string): boolean {
+  // An undefined zone is silently the viewer's own, so it must be named.
+  if (!zone) return false;
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: zone });
+    return true;
+  } catch {
+    return false;
+  }
 }

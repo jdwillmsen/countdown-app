@@ -7,6 +7,7 @@ const make = (slug: string, start: string, end: string): CountdownEvent => ({
   start,
   end,
   theme: 'camp',
+  timeZone: 'America/Chicago',
   completeMessage: 'Here',
 });
 

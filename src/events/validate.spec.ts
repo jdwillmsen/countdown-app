@@ -8,6 +8,7 @@ const ok: CountdownEvent = {
   start: '2025-07-17T16:30:00-05:00',
   end: '2025-07-20T12:00:00-05:00',
   theme: 'camp',
+  timeZone: 'America/Chicago',
   completeMessage: 'Here',
 };
 
@@ -36,6 +37,18 @@ describe('validateEvents', () => {
     expect(validateEvents([{ ...ok, end: ok.start }])).toEqual([
       'a-b: end must be after start',
     ]);
+  });
+
+  it('rejects unknown time zones', () => {
+    expect(validateEvents([{ ...ok, timeZone: 'Mars/Olympus' }])).toEqual([
+      'a-b: unknown time zone "Mars/Olympus"',
+    ]);
+  });
+
+  it("rejects a missing time zone, which would silently mean the viewer's", () => {
+    expect(
+      validateEvents([{ ...ok, timeZone: undefined as unknown as string }]),
+    ).toEqual(['a-b: unknown time zone "undefined"']);
   });
 
   it('rejects unknown themes', () => {

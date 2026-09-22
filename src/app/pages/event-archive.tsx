@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { ThemedBackdrop } from '../../themes/themed-backdrop';
 import { themes } from '../../themes/themes';
 import {
-  formatEventDate,
+  formatEventRange,
   startsAt,
   statusAt,
   type CountdownEvent,
@@ -50,7 +50,7 @@ export function EventArchive({
                 />
                 <div className={styles['tile-body']}>
                   <strong>{e.title}</strong>
-                  <span>{formatEventDate(e)}</span>
+                  <span>{formatEventRange(e)}</span>
                   <span className={styles['badge']}>
                     {BADGE[statusAt(e, now)]}
                   </span>

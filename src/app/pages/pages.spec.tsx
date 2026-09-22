@@ -15,6 +15,7 @@ const make = (
   start,
   end,
   theme: 'camp',
+  timeZone: 'America/Chicago',
   completeMessage: `${title} Is Here!`,
 });
 const older = make(
@@ -61,7 +62,7 @@ describe('pages', () => {
     expect(
       screen.getByRole('link', { name: 'Trip' }).getAttribute('href'),
     ).toBe('/events/trip-2025');
-    expect(screen.getByText(/Jul 17, 2025/)).toBeTruthy();
+    expect(screen.getByText(/Jul 17 – 20, 2025/)).toBeTruthy();
   });
 
   it('home with no events at all shows only the headline', () => {
@@ -78,7 +79,9 @@ describe('pages', () => {
   it('archive lists newest first with status badges', () => {
     renderAt('/events', '2025-07-18T12:00:00-05:00');
     const cards = screen.getAllByRole('listitem');
-    expect(within(cards[0]).getByText('Jul 17, 2025')).toBeTruthy();
+    expect(
+      within(cards[0]).getByText(/Thu, Jul 17, 2025, 4:30 PM CDT/),
+    ).toBeTruthy();
     expect(within(cards[0]).getByText('Happening now')).toBeTruthy();
     expect(within(cards[1]).getByText('Past')).toBeTruthy();
   });
@@ -86,7 +89,11 @@ describe('pages', () => {
   it('detail page for a past event says it has wrapped up', () => {
     renderAt('/events/trip-2024', '2025-09-01T00:00:00Z');
     expect(screen.getByText('Trip has wrapped up')).toBeTruthy();
-    expect(screen.getByText('Jul 18, 2024')).toBeTruthy();
+    expect(
+      screen.getByText(
+        'Thu, Jul 18, 2024, 6:00 PM CDT – Sun, Jul 21, 2024, 12:00 PM CDT',
+      ),
+    ).toBeTruthy();
   });
 
   it('detail page for a live event still says it is here', () => {
