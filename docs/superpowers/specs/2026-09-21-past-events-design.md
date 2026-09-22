@@ -52,12 +52,11 @@ Seed data:
 
 | slug                | title        | start                     | end                       | theme |
 | ------------------- | ------------ | ------------------------- | ------------------------- | ----- |
-| `boys-weekend-2024` | Boys Weekend | 2024-07-18T18:00:00-05:00 | 2024-07-21T12:00:00-05:00 | camp  |
-| `boys-weekend-2025` | Boys Weekend | 2025-07-17T16:30:00-05:00 | 2025-07-20T12:00:00-05:00 | camp  |
+| `boys-weekend-2024` | Boys Weekend | 2024-07-18T18:00:00-05:00 | 2024-07-21T20:00:00-05:00 | camp  |
+| `boys-weekend-2025` | Boys Weekend | 2025-07-17T16:30:00-05:00 | 2025-07-20T20:00:00-05:00 | camp  |
 
-The start times come from git history. The end times (Sunday noon) are
-assumptions, because history never recorded them. Correct them if they are
-wrong.
+The start times come from git history. Both events end Sunday at 8pm
+Central.
 
 Both use `camp_background.webp` and the message "Boys Weekend Is Here!".
 
