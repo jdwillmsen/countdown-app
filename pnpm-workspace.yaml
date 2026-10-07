@@ -15,7 +15,12 @@ allowBuilds:
 # lockfile regeneration rather than depending on what resolution happens to
 # pick. Drop an entry once a parent requires the patched version itself.
 overrides:
-  smol-toml: '>=1.7.1'
+  smol-toml: '>=1.9.0'
   qs: '>=6.15.2'
   axios: '>=1.20.0'
   serialize-javascript: '>=7.1.2'
+  source-map-js: '>=1.2.2'
+  http-cache-semantics: '>=4.3.0'
+  # Scoped to the advisory's own range: older minimatch majors still need
+  # brace-expansion 1.x and 2.x, which a bare entry would force onto 5.x.
+  'brace-expansion@>=4.0.0 <5.0.12': '>=5.0.12'
