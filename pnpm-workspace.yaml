@@ -17,3 +17,5 @@ allowBuilds:
 overrides:
   smol-toml: '>=1.7.1'
   qs: '>=6.15.2'
+  axios: '>=1.20.0'
+  serialize-javascript: '>=7.1.2'
