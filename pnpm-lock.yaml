@@ -2434,8 +2434,8 @@ packages:
     resolution: {integrity: sha512-ALFOzArQWaPhSb6zr5yQslFr/vyc/ZJENLzFeFzqeTWI2exm3V84zMieU2FEI29KBuotkX1zf5RTKXIc0UaChQ==}
     engines: {node: '>=20'}
 
-  '@xhmikosr/bin-wrapper@14.5.1':
-    resolution: {integrity: sha512-UZUuTYWxeAbTIiRKKEAmV3csoE36B3CGFZrYYn87+bSEBTyJ32p5gx5Gmj5HOgyOtioFUypbOZ1V5M/l/VoePw==}
+  '@xhmikosr/bin-wrapper@14.5.2':
+    resolution: {integrity: sha512-I0hz3Y7V8jbHPXLRgAYOuHodl3/4eX+dDePRb8l+nwXY07Gog7Lt3cZ9tIz3IJIbtJZyocTTb8whsatPmr5Zjg==}
     engines: {node: '>=20'}
 
   '@xhmikosr/decompress-tar@9.0.2':
@@ -7932,7 +7932,7 @@ snapshots:
     dependencies:
       '@swc/core': 1.16.18(@swc/helpers@0.5.23)
       '@swc/counter': 0.1.3
-      '@xhmikosr/bin-wrapper': 14.5.1(supports-color@8.1.1)
+      '@xhmikosr/bin-wrapper': 14.5.2(supports-color@8.1.1)
       commander: 8.3.0
       minimatch: 9.0.9
       piscina: 4.9.4
@@ -8291,7 +8291,7 @@ snapshots:
       isexe: 4.0.0
       tinyexec: 1.3.1
 
-  '@xhmikosr/bin-wrapper@14.5.1(supports-color@8.1.1)':
+  '@xhmikosr/bin-wrapper@14.5.2(supports-color@8.1.1)':
     dependencies:
       '@xhmikosr/bin-check': 8.3.0
       '@xhmikosr/downloader': 16.3.1(supports-color@8.1.1)
