@@ -6,33 +6,25 @@
   "tags": [],
   "implicitDependencies": ["countdown-app"],
   "targets": {
-    "e2e": {
-      "executor": "@nx/cypress:cypress",
-      "options": {
-        "cypressConfig": "e2e/cypress.config.ts",
-        "testingType": "e2e",
-        "devServerTarget": "countdown-app:serve"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "countdown-app:serve:production"
-        },
-        "ci": {
-          "devServerTarget": "countdown-app:serve-static"
-        }
-      }
-    },
     "e2e-ci": {
-      "executor": "@nx/cypress:cypress",
+      "command": "cypress run --env webServerCommand=\"npx nx run countdown-app:serve-static\" --config=\"{\\\"e2e\\\":{\\\"videosFolder\\\":\\\"../dist/cypress/e2e/videos\\\",\\\"screenshotsFolder\\\":\\\"../dist/cypress/e2e/screenshots\\\"}}\"",
       "options": {
-        "cypressConfig": "e2e/cypress.config.ts",
-        "testingType": "e2e",
-        "devServerTarget": "countdown-app:serve-static"
+        "cwd": "e2e",
+        "env": {
+          "TS_NODE_COMPILER_OPTIONS": "{\"customConditions\":null}"
+        }
       },
-      "dependsOn": ["^build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
+      "outputs": [
+        "{workspaceRoot}/dist/cypress/e2e/videos",
+        "{workspaceRoot}/dist/cypress/e2e/screenshots"
+      ],
+      "dependsOn": [
+        {
+          "target": "serve-static",
+          "projects": ["countdown-app"],
+          "waitFor": "ready"
+        }
+      ]
     }
   }
 }
