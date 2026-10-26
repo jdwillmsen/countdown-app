@@ -1,8 +1,8 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { VitePWA } from 'vite-plugin-pwa';
+import { nxReadySignal } from '@nx/vite/plugins/nx-ready-signal.plugin';
 
 export default defineConfig({
   root: __dirname,
@@ -20,7 +20,6 @@ export default defineConfig({
 
   plugins: [
     react(),
-    nxViteTsPaths(),
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: {
@@ -99,12 +98,8 @@ export default defineConfig({
         description: 'Countdowns to upcoming events, and the ones already past',
       },
     }),
+    nxReadySignal(),
   ],
-
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
 
   build: {
     outDir: './dist/countdown-app',
