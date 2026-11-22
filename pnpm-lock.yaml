@@ -2010,17 +2010,15 @@ packages:
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
 
-  '@semantic-release/commit-analyzer@14.0.0-beta.4':
-    resolution: {integrity: sha512-lYaWYjQE6cfXLmqo/zyk0VLRjA7Pd02JIgpB2XhVdEt++r45KvvfT/Zi6xjzxqXuhIkmrjNGbzwMzwHPw09QhQ==}
-    engines: {node: ^22.22.2 || >=24.15}
+  '@semantic-release/commit-analyzer@14.0.0-beta.5':
+    resolution: {integrity: sha512-fnmPi9LP8e1Ai0OhaF4ZdfNLlq2xJfxxKKvap/7GjRaPBGNmeTEC+1S3Q722DN+vO4yjSWUyaxmNJzRiiS21gw==}
+    engines: {node: '>=26.13'}
     peerDependencies:
       semantic-release: '>=20.1.0'
 
-  '@semantic-release/core@1.0.0-beta.15':
-    resolution: {integrity: sha512-s3vXgeHwJIneFW7vo5sIykxGMwlZ/Ow7JQj6oayP4qajDqpKdUi6oHziiss4DvOJae2uOZFZrai7JVe7mtnkYA==}
+  '@semantic-release/core@1.0.0-beta.16':
+    resolution: {integrity: sha512-+mo2axYJZJ2ulnnX5FJIzyHyzK5zL+dRDUi5x4kZh0xFGG+U34yVrgCfC8vahGATJzfVPqOXPJNKZwL8nhbQkA==}
     engines: {node: '>=26.13'}
-    peerDependencies:
-      '@semantic-release/commit-analyzer': ^14.0.0-beta.4
 
   '@semantic-release/error@4.0.0':
     resolution: {integrity: sha512-mgdxrHTLOjOddRVYIYDo0fR3/v61GNN1YGkfbrjuIKg/uMgCd+Qzo3UAXJ+woLQQpos4pl5Esuw5A7AoNlzjUQ==}
@@ -7824,7 +7822,7 @@ snapshots:
 
   '@sec-ant/readable-stream@0.4.1': {}
 
-  '@semantic-release/commit-analyzer@14.0.0-beta.4(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)':
+  '@semantic-release/commit-analyzer@14.0.0-beta.5(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)':
     dependencies:
       conventional-changelog-angular: 9.4.0
       conventional-changelog-conventionalcommits: 10.4.1
@@ -7838,9 +7836,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/core@1.0.0-beta.15(@semantic-release/commit-analyzer@14.0.0-beta.4(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1))(supports-color@8.1.1)':
+  '@semantic-release/core@1.0.0-beta.16(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)':
     dependencies:
-      '@semantic-release/commit-analyzer': 14.0.0-beta.4(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)
+      '@semantic-release/commit-analyzer': 14.0.0-beta.5(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)
       '@semantic-release/error': 4.0.0
       aggregate-error: 5.1.0
       cosmiconfig: 10.0.1
@@ -7862,6 +7860,7 @@ snapshots:
       semver: 7.8.6
       signale: 1.4.0
     transitivePeerDependencies:
+      - semantic-release
       - supports-color
 
   '@semantic-release/error@4.0.0': {}
@@ -11306,8 +11305,8 @@ snapshots:
 
   semantic-release@26.0.1(supports-color@8.1.1):
     dependencies:
-      '@semantic-release/commit-analyzer': 14.0.0-beta.4(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)
-      '@semantic-release/core': 1.0.0-beta.15(@semantic-release/commit-analyzer@14.0.0-beta.4(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1))(supports-color@8.1.1)
+      '@semantic-release/commit-analyzer': 14.0.0-beta.5(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)
+      '@semantic-release/core': 1.0.0-beta.16(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)
       '@semantic-release/github': 12.0.11(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)
       '@semantic-release/npm': 14.0.0-beta.3(semantic-release@26.0.1(supports-color@8.1.1))
       '@semantic-release/release-notes-generator': 15.0.0-beta.4(semantic-release@26.0.1(supports-color@8.1.1))(supports-color@8.1.1)
